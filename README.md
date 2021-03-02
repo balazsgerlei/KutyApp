@@ -3,7 +3,8 @@
 ![Workflow result](https://github.com/balazsgerlei/KutyApp/workflows/Check/badge.svg)
 
 ## :scroll: Description
-My submission named KutyApp* to the #AndroidDevChallenge for Jetpack Compose.
+My submission named KutyApp* for Week #1 of the #AndroidDevChallenge for Jetpack Compose.
+
 *Kutya: Hungarian for Dog.
 
 ## :bulb: Motivation and Context
