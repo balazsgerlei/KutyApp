@@ -32,6 +32,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -47,6 +48,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.navArgument
+import androidx.navigation.compose.navigate
+import androidx.navigation.compose.rememberNavController
 import com.example.androiddevchallenge.ui.theme.MyTheme
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -56,6 +64,79 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+
+val demoDogs: List<Dog> = listOf(
+    Dog(
+        0,
+        "https://cdn2.thedogapi.com/images/SJuYFO3HQ_1280.jpg",
+        "Barky",
+        "Husky",
+        "Male"
+    ),
+    Dog(
+        1,
+        "https://cdn2.thedogapi.com/images/HyOjge5Vm_1280.jpg",
+        "Suzy",
+        "Husky",
+        "Female"
+    ),
+    Dog(
+        2,
+        "https://cdn2.thedogapi.com/images/SJuYFO3HQ_1280.jpg",
+        "Barky",
+        "Husky",
+        "Male"
+    ),
+    Dog(
+        3,
+        "https://cdn2.thedogapi.com/images/GhtSdrW29.jpg",
+        "Barky",
+        "Husky",
+        "Male"
+    ),
+    Dog(
+        4,
+        "https://cdn2.thedogapi.com/images/SJuYFO3HQ_1280.jpg",
+        "Barky",
+        "Husky",
+        "Male"
+    ),
+    Dog(
+        5,
+        "https://cdn2.thedogapi.com/images/SJuYFO3HQ_1280.jpg",
+        "Barky",
+        "Husky",
+        "Male"
+    ),
+    Dog(
+        6,
+        "https://cdn2.thedogapi.com/images/SJuYFO3HQ_1280.jpg",
+        "Barky",
+        "Husky",
+        "Male"
+    ),
+    Dog(
+        7,
+        "https://cdn2.thedogapi.com/images/SJuYFO3HQ_1280.jpg",
+        "Barky",
+        "Husky",
+        "Male"
+    ),
+    Dog(
+        8,
+        "https://cdn2.thedogapi.com/images/SJuYFO3HQ_1280.jpg",
+        "Barky",
+        "Husky",
+        "Male"
+    ),
+    Dog(
+        9,
+        "https://cdn2.thedogapi.com/images/SJuYFO3HQ_1280.jpg",
+        "Barky",
+        "Husky",
+        "Male"
+    )
+)
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,7 +153,7 @@ class MainActivity : AppCompatActivity() {
         setContent {
             MyTheme {
                 MyApp {
-                    MyAppScaffold(dogApi, moshi)
+                    MyAppContent(dogApi)
                 }
             }
         }
@@ -87,7 +168,49 @@ fun MyApp(content: @Composable () -> Unit) {
 }
 
 @Composable
-fun MyAppScaffold(dogApi: DogApi, moshi: Moshi) {
+fun MyAppContent(dogApi: DogApi) {
+    val navController = rememberNavController()
+    NavHost(navController = navController, "dogListScreen") {
+        composable("dogListScreen") { DogListScreenScaffold(navController, dogApi) }
+        composable(
+            "dogDetailsScreen/{index}",
+            arguments = listOf(navArgument("index") { type = NavType.IntType })
+        ) {
+            val dogIndex = it.arguments?.getInt("index") ?: 0
+            DogDetailsScreen(demoDogs[dogIndex])
+        }
+    }
+}
+
+@Composable
+fun DogDetailsScreen(dog: Dog) {
+    Column {
+        GlideImage(
+            data = dog.imageUrl,
+            loading = {
+                Box(Modifier.matchParentSize()) {
+                    CircularProgressIndicator(Modifier.align(Alignment.Center))
+                }
+            },
+            contentDescription = "Image of ${dog.name} #${dog.id}",
+            fadeIn = true,
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(40.dp))
+        )
+        Text("${dog.name}")
+        Text("${dog.breed}")
+        Text("${dog.sex}")
+        Button(
+            onClick = { /* Do something */ }
+        ) {
+            Text("Adopt this dog")
+        }
+    }
+}
+
+@Composable
+fun DogListScreenScaffold(navController: NavController, dogApi: DogApi) {
     val listSize = 10
     val coroutineScope = rememberCoroutineScope()
     var dogs by mutableStateOf(listOf<Dog>())
@@ -121,41 +244,43 @@ fun MyAppScaffold(dogApi: DogApi, moshi: Moshi) {
             )
         }
     ) { innerPadding ->
-        MyAppContent(
+        DogListScreenContent(
             Modifier
                 .padding(innerPadding)
                 .padding(8.dp),
+            navController,
             dogs
         )
     }
 }
 
 @Composable
-fun MyAppContent(modifier: Modifier = Modifier, dogs: List<Dog>) {
+fun DogListScreenContent(modifier: Modifier = Modifier, navController: NavController, dogs: List<Dog>) {
     Box(modifier = modifier) {
-        DogList(dogs)
+        DogList(navController, dogs)
     }
 }
 
 @Composable
-fun DogList(dogs: List<Dog>) {
+fun DogList(navController: NavController, dogs: List<Dog>) {
     val scrollState = rememberLazyListState()
     LazyColumn(state = scrollState, modifier = Modifier.fillMaxWidth()) {
         items(dogs) { dog ->
-            ListRow(dog)
+            ListRow(navController, dog)
             Spacer(modifier = Modifier.height(8.dp))
         }
     }
 }
 
 @Composable
-fun ListRow(dog: Dog) {
+fun ListRow(navController: NavController, dog: Dog) {
+    val dogId = dog.id
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
-            .clickable(onClick = { /* Ignore */ })
+            .clickable(onClick = { navController.navigate(route = "dogDetailsScreen/$dogId") })
     ) {
         GlideImage(
             data = dog.imageUrl,
