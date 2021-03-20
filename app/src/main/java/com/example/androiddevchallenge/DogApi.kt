@@ -17,8 +17,14 @@ package com.example.androiddevchallenge
 
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 interface DogApi {
-    @GET("images/search")
-    fun getDog(): Call<List<DogResult>>?
+
+    @GET("images/search?size=med&mime_types=jpg&format=json&has_breeds=true")
+    fun fetchDogs(): Call<List<DogResult>>?
+
+    @GET("images/{id}")
+    fun fetchDog(@Path("id") id: String): Call<DogResult>?
+
 }
