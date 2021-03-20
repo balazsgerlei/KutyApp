@@ -28,13 +28,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.androiddevchallenge.Dog
 import com.example.androiddevchallenge.DogApi
 import com.example.androiddevchallenge.DogResult
 import com.example.androiddevchallenge.Sex
 import com.example.androiddevchallenge.demoDogs
+import com.example.androiddevchallenge.ui.theme.MyTheme
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -147,5 +150,21 @@ fun DogList(navController: NavController, dogs: List<Dog>) {
             DogListRow(navController, dog)
             Spacer(modifier = Modifier.height(8.dp))
         }
+    }
+}
+
+@Preview("Dog List Screen (Light Theme)", widthDp = 360, heightDp = 640)
+@Composable
+fun DogListScreenLightPreview() {
+    MyTheme {
+        DogListScreenContent(navController = rememberNavController(), dogs = demoDogs)
+    }
+}
+
+@Preview("Dog List Screen (Dark Theme)", widthDp = 360, heightDp = 640)
+@Composable
+fun DogListScreenDarkPreview() {
+    MyTheme(darkTheme = true) {
+        DogListScreenContent(navController = rememberNavController(), dogs = demoDogs)
     }
 }

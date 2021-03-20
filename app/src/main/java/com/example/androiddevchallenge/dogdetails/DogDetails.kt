@@ -37,9 +37,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.androiddevchallenge.Dog
+import com.example.androiddevchallenge.demoDogs
+import com.example.androiddevchallenge.ui.theme.MyTheme
 import com.example.androiddevchallenge.ui.theme.translucentGray
 import dev.chrisbanes.accompanist.glide.GlideImage
 
@@ -215,5 +219,21 @@ fun DogPropertiesRow(modifier: Modifier = Modifier, dog: Dog) {
             Spacer(modifier = Modifier.height(8.dp))
             Text("1 year 2 month")
         }
+    }
+}
+
+@Preview("Dog Details Screen (Light Theme)", widthDp = 360, heightDp = 640)
+@Composable
+fun DogDetailsLightPreview() {
+    MyTheme {
+        DogDetails(navController = rememberNavController(), dog = demoDogs[0])
+    }
+}
+
+@Preview("Dog Details Screen (Dark Theme)", widthDp = 360, heightDp = 640)
+@Composable
+fun DogDetailsDarkPreview() {
+    MyTheme(darkTheme = true) {
+        DogDetails(navController = rememberNavController(), dog = demoDogs[0])
     }
 }

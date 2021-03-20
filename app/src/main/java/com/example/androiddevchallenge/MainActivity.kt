@@ -142,35 +142,3 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
-
-/*@Preview("ListRow preview", showBackground = true)
-@Composable
-fun ListRowPreview() {
-    MyTheme {
-        ListRow(navController = rememberNavController(), dog = demoDogs[0])
-    }
-}*/
-
-/*@Preview("DogDetails preview")
-@Composable
-fun DogDetailsPreview() {
-    MyTheme {
-        DogDetails(dog = demoDogs[0])
-    }
-}*/
-
-/*Preview("Dog List Screen (Light Theme)", widthDp = 360, heightDp = 640)
-@Composable
-fun DogListScreenLightPreview() {
-    MyTheme {
-        DogListScreenContent(navController = rememberNavController(), dogs = demoDogs)
-    }
-}
-
-@Preview("Dog List Screen (Dark Theme)", widthDp = 360, heightDp = 640)
-@Composable
-fun DogListScreenDarkPreview() {
-    MyTheme(darkTheme = true) {
-        DogListScreenContent(navController = rememberNavController(), dogs = demoDogs)
-    }
-}*/

@@ -19,10 +19,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.navigate
+import androidx.navigation.compose.rememberNavController
 import com.example.androiddevchallenge.Dog
+import com.example.androiddevchallenge.demoDogs
+import com.example.androiddevchallenge.ui.theme.MyTheme
 import dev.chrisbanes.accompanist.glide.GlideImage
 
 @Composable
@@ -67,4 +71,12 @@ fun DogListRow(navController: NavController, dog: Dog) {
         }
     }
 
+}
+
+@Preview("ListRow preview", showBackground = true)
+@Composable
+fun ListRowPreview() {
+    MyTheme {
+        DogListRow(navController = rememberNavController(), dog = demoDogs[0])
+    }
 }
