@@ -76,8 +76,7 @@ fun DogListScreenScaffold(navController: NavController, dogApi: DogApi) {
                         dogResult?.breeds?.let {
                             breed = it[0].name
                         }
-                        val sex = if (Random.nextInt(0, 2) == 0) Sex.Male else Sex.Female
-                        dog = Dog(dogResult?.id ?: "", url, demoDogs[it].name, breed, sex)
+                        dog = Dog(dogResult?.id ?: "", url, demoDogs[it].name, breed, demoDogs[it].sex)
                     }
                     var dogList = mutableListOf<Dog>()
                     dogList.addAll(dogs)
