@@ -26,5 +26,4 @@ interface DogApi {
 
     @GET("images/{id}")
     fun fetchDog(@Path("id") id: String): Call<DogResult>?
-
 }
