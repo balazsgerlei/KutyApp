@@ -50,14 +50,12 @@ import androidx.navigation.compose.rememberNavController
 import com.example.androiddevchallenge.Dog
 import com.example.androiddevchallenge.DogApi
 import com.example.androiddevchallenge.DogResult
-import com.example.androiddevchallenge.Sex
 import com.example.androiddevchallenge.demoDogs
 import com.example.androiddevchallenge.ui.theme.MyTheme
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlin.random.Random
 
 @ExperimentalMaterialApi
 @Composable
