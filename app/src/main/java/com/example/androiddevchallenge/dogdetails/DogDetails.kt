@@ -178,8 +178,8 @@ fun DogDetailsProperties(modifier: Modifier = Modifier, dog: Dog) {
                 Text(dog.name, style = MaterialTheme.typography.h2)
                 Spacer(modifier = Modifier.width(16.dp))
                 Icon(
-                    Icons.Default.Male,
-                    modifier = Modifier.size(40.dp),
+                    if (dog.sex == Sex.Male) Icons.Default.Male else Icons.Default.Female,
+                    modifier = Modifier.size(48.dp),
                     tint = MaterialTheme.colors.onSurface,
                     contentDescription = "Male"
                 )
