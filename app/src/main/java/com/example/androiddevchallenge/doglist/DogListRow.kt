@@ -15,9 +15,10 @@
  */
 package com.example.androiddevchallenge.doglist
 
+import android.os.Bundle
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,7 +26,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -37,12 +37,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
 import com.example.androiddevchallenge.Dog
+import com.example.androiddevchallenge.R
 import com.example.androiddevchallenge.demoDogs
 import com.example.androiddevchallenge.ui.theme.MyTheme
-import dev.chrisbanes.accompanist.glide.GlideImage
+import com.google.accompanist.coil.rememberCoilPainter
 
 @Composable
 fun DogListRow(navController: NavController, dog: Dog) {
@@ -59,25 +59,24 @@ fun DogListRow(navController: NavController, dog: Dog) {
                 .fillMaxWidth()
                 .clickable(
                     onClick = {
-                        navController.currentBackStackEntry?.arguments?.putParcelable("dog", dog)
+                        navController.currentBackStackEntry?.arguments = Bundle().apply {
+                            putParcelable("dog", dog)
+                        }
                         navController.navigate(route = "dogDetailsScreen")
                     }
                 )
         ) {
-            GlideImage(
-                data = dog.imageUrl,
-                loading = {
-                    Box(Modifier.matchParentSize()) {
-                        CircularProgressIndicator(Modifier.align(Alignment.Center))
-                    }
-                },
-                contentDescription = "Image of ${dog.name}",
-                fadeIn = true,
+            Image(
                 modifier = Modifier
                     .height(160.dp)
-                    .width(200.dp)
-                /*.clip(MaterialTheme.shapes.medium)*/,
-                contentScale = ContentScale.Crop
+                    .width(200.dp),
+                contentScale = ContentScale.Crop,
+                painter = rememberCoilPainter(
+                    request = dog.imageUrl,
+                    fadeIn = true,
+                    previewPlaceholder = R.drawable.ic_launcher_background
+                ),
+                contentDescription = "Image of ${dog.name}",
             )
             Spacer(modifier = Modifier.width(16.dp))
             Column {

@@ -15,6 +15,7 @@
  */
 package com.example.androiddevchallenge.dogdetails
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -31,7 +32,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomAppBar
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.FabPosition
 import androidx.compose.material.FloatingActionButton
@@ -44,6 +44,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Female
 import androidx.compose.material.icons.filled.House
 import androidx.compose.material.icons.filled.Male
 import androidx.compose.runtime.Composable
@@ -57,10 +58,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.androiddevchallenge.Dog
+import com.example.androiddevchallenge.R
+import com.example.androiddevchallenge.Sex
 import com.example.androiddevchallenge.demoDogs
 import com.example.androiddevchallenge.ui.theme.MyTheme
 import com.example.androiddevchallenge.ui.theme.translucentGray
-import dev.chrisbanes.accompanist.glide.GlideImage
+import com.google.accompanist.coil.rememberCoilPainter
 
 @Composable
 fun DogDetailsScreen(navController: NavController, dog: Dog) {
@@ -119,19 +122,17 @@ fun DogDetailsScreenContent(modifier: Modifier = Modifier, navController: NavCon
 fun DogDetails(modifier: Modifier = Modifier, navController: NavController, dog: Dog) {
     Column(modifier) {
         Box {
-            GlideImage(
-                data = dog.imageUrl,
-                loading = {
-                    Box(Modifier.matchParentSize()) {
-                        CircularProgressIndicator(Modifier.align(Alignment.Center))
-                    }
-                },
-                contentDescription = "Image of ${dog.name}",
-                fadeIn = true,
+            Image(
                 modifier = Modifier
                     .height(300.dp)
                     .fillMaxWidth(),
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Crop,
+                painter = rememberCoilPainter(
+                    request = dog.imageUrl,
+                    fadeIn = true,
+                    previewPlaceholder = R.drawable.ic_launcher_background
+                ),
+                contentDescription = "Image of ${dog.name}",
             )
             DogDetailsToolbar(modifier = Modifier.fillMaxWidth(), navController = navController)
             DogDetailsProperties(modifier = Modifier.fillMaxHeight().fillMaxWidth(), dog = dog)
