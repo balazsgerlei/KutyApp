@@ -40,6 +40,7 @@ import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -61,7 +62,7 @@ import retrofit2.Response
 @Composable
 fun DogListScreenScaffold(navController: NavController, dogApi: DogApi) {
     val listSize = 10
-    var dogs by mutableStateOf(listOf<Dog>())
+    var dogs by remember { mutableStateOf(listOf<Dog>()) }
 
     repeat(listSize) {
         var dog: Dog? = null
