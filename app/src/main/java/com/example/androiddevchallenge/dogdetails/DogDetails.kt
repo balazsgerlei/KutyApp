@@ -77,7 +77,6 @@ fun DogDetailsScreen(navController: NavController, dog: Dog) {
                         Icon(
                             Icons.Filled.Favorite,
                             contentDescription = null,
-                            tint = MaterialTheme.colors.onSurface,
                         )
                     }
                 }
